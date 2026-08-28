@@ -43,6 +43,20 @@
       (function () {
         var api = (window.__k9pwa = window.__k9pwa || { prompt: null, listeners: [], installed: false, swState: 'unsupported' });
         api.notify = function () { api.listeners.slice().forEach(function (fn) { try { fn(); } catch (e) {} }); };
+        // Ask the browser to KEEP this device's records. Without this the store is "best effort":
+        // browsers may evict it under storage pressure, and iOS clears non-persisted site data after
+        // about seven days of not opening the app. For a tool whose whole promise is that records stay
+        // on the device, silent eviction is the worst possible failure, so we ask up front. Installing
+        // to the home screen makes the request far more likely to be granted.
+        if (navigator.storage && navigator.storage.persist) {
+          navigator.storage.persisted().then(function (already) {
+            if (already) { api.storagePersisted = true; api.notify(); return; }
+            return navigator.storage.persist().then(function (granted) {
+              api.storagePersisted = granted;
+              api.notify();
+            });
+          }).catch(function () { api.storagePersisted = undefined; });
+        }
         window.addEventListener('beforeinstallprompt', function (e) {
           e.preventDefault();
           api.prompt = e;

@@ -3,7 +3,7 @@
   "name": "K9CLONE — K9 Record Keeping",
   "short_name": "K9CLONE",
   "description": "Training, deployment, class, vet and GPS records for a police K9 unit. Works offline; every record stays on this device.",
-  "start_url": "records",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "browser"],
