@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="K9CLONE">
+  <!-- Maskable variant: everything that matters sits inside the centre 80% safe zone. -->
+  <rect width="512" height="512" fill="#14524A"/>
+  <g fill="#FFFFFF" transform="translate(256 262) scale(0.62) translate(-256 -262)">
+    <ellipse cx="152" cy="200" rx="40" ry="52" transform="rotate(-20 152 200)"/>
+    <ellipse cx="217" cy="163" rx="40" ry="55" transform="rotate(-7 217 163)"/>
+    <ellipse cx="295" cy="163" rx="40" ry="55" transform="rotate(7 295 163)"/>
+    <ellipse cx="360" cy="200" rx="40" ry="52" transform="rotate(20 360 200)"/>
+    <path d="M256 226c58 0 114 46 114 100 0 44-34 68-70 68-19 0-31-8-44-8s-25 8-44 8c-36 0-70-24-70-68 0-54 56-100 114-100z"/>
+  </g>
+</svg>

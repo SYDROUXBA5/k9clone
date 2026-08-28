@@ -1,0 +1,28 @@
+{
+  "id": "./",
+  "name": "K9CLONE — K9 Record Keeping",
+  "short_name": "K9CLONE",
+  "description": "Training, deployment, class, vet and GPS records for a police K9 unit. Works offline; every record stays on this device.",
+  "start_url": "records",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "theme_color": "#14524A",
+  "background_color": "#14524A",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Records", "short_name": "Records", "url": "records", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Reports", "short_name": "Reports", "url": "reports", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Tracking", "short_name": "Tracking", "url": "tracking", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

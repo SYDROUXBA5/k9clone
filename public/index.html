@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="%LANG_ISO_CODE%">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+    <title>%WEB_TITLE%</title>
+
+    <!-- Installable web app (PWA). This file replaces Expo default index.html template; the CLI still injects the bundle script and any CSS links at the end of the document. -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#14524A" />
+    <meta name="description" content="Training, deployment, class, vet and GPS records for a police K9 unit." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="K9CLONE" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/favicon-48.png" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+
+    <script>
+      // The install prompt usually fires before React has mounted, so it is captured here and
+      // handed to the app through window.__k9pwa. src/features/pwa reads it.
+      (function () {
+        var api = (window.__k9pwa = window.__k9pwa || { prompt: null, listeners: [], installed: false, swState: 'unsupported' });
+        api.notify = function () { api.listeners.slice().forEach(function (fn) { try { fn(); } catch (e) {} }); };
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault();
+          api.prompt = e;
+          api.notify();
+        });
+        window.addEventListener('appinstalled', function () {
+          api.prompt = null;
+          api.installed = true;
+          api.notify();
+        });
+        if ('serviceWorker' in navigator) {
+          api.swState = 'registering';
+          window.addEventListener('load', function () {
+            navigator.serviceWorker
+              // Relative, not '/sw.js': on GitHub Pages the app lives at /k9clone/, where an
+              // absolute path would look for a worker at the domain root and silently register nothing.
+              .register('sw.js', { scope: './' })
+              .then(function (reg) {
+                api.swState = 'registered';
+                api.registration = reg;
+                api.notify();
+                // On a FIRST visit the worker only takes control part-way through the load, so most
+                // assets — notably the icon font — are fetched before it can see them and are never
+                // cached. A handler who opens the app once and then goes into the field would get the
+                // app with blank icons. Hand the worker the list of what this page actually loaded so
+                // one connected visit is genuinely enough.
+                navigator.serviceWorker.ready.then(function () {
+                  var sw = navigator.serviceWorker.controller || reg.active;
+                  if (!sw || !window.performance || !performance.getEntriesByType) return;
+                  var urls = performance
+                    .getEntriesByType('resource')
+                    .map(function (e) { return e.name; })
+                    .filter(function (u) { return u.indexOf(location.origin) === 0 && !/\/(hot|_expo\/ws)/.test(u); });
+                  if (urls.length) sw.postMessage({ type: 'WARM_CACHE', urls: urls.slice(0, 120) });
+                });
+              })
+              .catch(function (err) {
+                api.swState = 'failed';
+                api.swError = String((err && err.message) || err);
+                api.notify();
+              });
+          });
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  </body>
+</html>
