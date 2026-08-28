@@ -13,6 +13,7 @@ import { useEntityCounts, useList, useRepo } from '@/db/provider';
 import { seedDemo } from '@/db/seed';
 import { ROLE_LABEL } from '@/db/types';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { BackupSection } from '@/features/backup/BackupSection';
 import { describeSeat } from '@/features/billing/billingModel';
 import { useCurrentSeat } from '@/features/billing/useCurrentSeat';
 import { usePrefs } from '@/features/prefs/PrefsProvider';
@@ -278,6 +279,8 @@ export function ProfileScreen() {
           <Button title="Change password" variant="secondary" onPress={() => void changePassword()} testID="btn-change-password" style={{ alignSelf: 'flex-start' }} />
         </Card>
       </Section>
+
+      <BackupSection />
 
       {/* ---------- Developer ---------- */}
       <Section title="Developer" description="Local demo tools. Nothing here leaves this device.">
