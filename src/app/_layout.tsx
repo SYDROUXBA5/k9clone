@@ -60,8 +60,8 @@ function SeedGate({ children }: { children: React.ReactNode }) {
   }, [repo]);
   if (!ready) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: c.primary }}>
-        <ActivityIndicator color="#fff" size="large" />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: c.bg }}>
+        <ActivityIndicator color={c.primary} size="large" />
       </View>
     );
   }

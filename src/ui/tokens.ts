@@ -7,8 +7,10 @@
 //
 // Every foreground/background pair below clears WCAG AA (4.5:1) for 16 px text; the ratios were
 // measured against the colour a translucent surface actually composites to, not against the raw rgba.
-// `*Solid` colours are the ones that carry WHITE text in BOTH themes (toasts, chart bars), so they
-// stay dark in dark mode for exactly that reason.
+// `successSolid` / `dangerSolid` / `infoSolid` carry WHITE text in BOTH themes (toasts, chart bars),
+// so they stay dark in dark mode for exactly that reason. `accentSolid` is the exception and does NOT:
+// it is the cyan FILL for badges, the logo tile and the add button, and its ink is `accentText`
+// (near-black in dark). Anything drawing on `accentSolid` must use `accentText`, never '#fff'.
 //
 // A note on cyan: it is a LIGHT hue, so every cyan fill carries DARK ink (`accentText`/`primaryText`
 // are near-black in dark mode). That is the opposite of the orange it replaced, where fills carried

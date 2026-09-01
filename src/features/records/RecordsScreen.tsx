@@ -383,7 +383,7 @@ function RecordsHub() {
             <Text variant="label" style={{ color: c.navText }}>TO DO</Text>
             {todoCount ? (
               <View style={[styles.phoneBadge, { backgroundColor: c.accentSolid }]}>
-                <Text style={{ color: '#fff', fontWeight: '700' }} testID="text-todo-phone-count">{todoCount > 99 ? '99+' : todoCount}</Text>
+                <Text style={{ color: c.accentText, fontWeight: '700' }} testID="text-todo-phone-count">{todoCount > 99 ? '99+' : todoCount}</Text>
               </View>
             ) : null}
           </Pressable>
@@ -399,7 +399,7 @@ function RecordsHub() {
             <Text variant="label" style={{ color: c.navText }}>FILTER</Text>
             {activeKeys.length ? (
               <View style={[styles.phoneBadge, { backgroundColor: c.accentSolid }]}>
-                <Text style={{ color: '#fff', fontWeight: '700' }} testID="text-filter-phone-count">{activeKeys.length}</Text>
+                <Text style={{ color: c.accentText, fontWeight: '700' }} testID="text-filter-phone-count">{activeKeys.length}</Text>
               </View>
             ) : null}
           </Pressable>

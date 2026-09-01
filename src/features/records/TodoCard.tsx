@@ -15,7 +15,7 @@ export function TodoCard({ items, total, onPick, active }: { items: TodoItem[]; 
       <View style={[styles.head, desktop ? { borderRightWidth: 1, borderRightColor: c.border, paddingRight: space.md, marginRight: space.md, minWidth: 190 } : { borderBottomWidth: 1, borderBottomColor: c.border, paddingBottom: space.sm, marginBottom: space.sm }]}>
         <View style={[styles.iconWrap, { backgroundColor: total ? c.accentSoft : c.surfaceAlt }]}>
           <Ionicons name="clipboard-outline" size={26} color={total ? c.accent : c.muted} />
-          {total ? <View style={[styles.badge, { backgroundColor: c.accentSolid }]}><Text style={{ color: '#fff', fontSize: 16, lineHeight: 18, fontWeight: '700' }} testID="text-todo-total">{total > 99 ? '99+' : total}</Text></View> : null}
+          {total ? <View style={[styles.badge, { backgroundColor: c.accentSolid }]}><Text style={{ color: c.accentText, fontSize: 16, lineHeight: 18, fontWeight: '700' }} testID="text-todo-total">{total > 99 ? '99+' : total}</Text></View> : null}
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text variant="h3" testID="text-todo-title">{total} TO DO</Text>
