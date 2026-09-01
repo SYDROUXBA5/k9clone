@@ -4,8 +4,10 @@ import { ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 're
 import { Button } from './Button';
 import { useScrollBottomClearance } from './FieldHelp';
 import { H1, H3, Muted, Text } from './Text';
+import { glassBlur, glassEdge } from './glass';
+import { GlowBackdrop } from './GlowBackdrop';
 import { useColors, useIsDesktop } from './theme';
-import { radius, space } from './tokens';
+import { blur, radius, space } from './tokens';
 
 /** Page container: title row + scrollable content, max width on desktop. */
 export function Screen({ title, subtitle, actions, children, testID, scroll = true, maxWidth = 1100, padded = true }: {
@@ -30,17 +32,27 @@ export function Screen({ title, subtitle, actions, children, testID, scroll = tr
       {children}
     </View>
   );
-  if (!scroll) return <View testID={testID} style={{ flex: 1, backgroundColor: c.bg }}>{inner}</View>;
+  // Transparent on purpose: the Shell paints the glow behind every screen, and an opaque
+  // background here would hide it and leave the cards translucent over nothing.
+  if (!scroll) return <View testID={testID} style={{ flex: 1 }}>{inner}</View>;
   return (
-    <ScrollView testID={testID} style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={{ flexGrow: 1, paddingBottom: bottomClearance }} keyboardShouldPersistTaps="handled">
+    <ScrollView testID={testID} style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: bottomClearance }} keyboardShouldPersistTaps="handled">
       {inner}
     </ScrollView>
   );
 }
 
-export function Card({ children, style, testID, onPress }: { children?: React.ReactNode; style?: StyleProp<ViewStyle>; testID?: string; onPress?: () => void }) {
+export function Card({ children, style, testID, onPress, nested }: { children?: React.ReactNode; style?: StyleProp<ViewStyle>; testID?: string; onPress?: () => void; nested?: boolean }) {
   const c = useColors();
-  const s = [styles.card, { backgroundColor: c.surface, borderColor: c.border }, style];
+  // `nested` is the lighter pane used for a tile sitting INSIDE another card (the stat tiles on the
+  // hub). Two identical translucencies stacked read as one muddy block, so the inner one lifts.
+  const s = [
+    styles.card,
+    { backgroundColor: nested ? c.surfaceAlt : c.surface, borderColor: c.border },
+    glassBlur(nested ? 0 : blur.card),
+    glassEdge(c.glassEdge),
+    style,
+  ];
   return <View testID={testID} style={s}>{children}</View>;
 }
 
@@ -143,8 +155,8 @@ export function Badge({ children, tone = 'primary', testID }: { children: React.
 const styles = StyleSheet.create({
   titleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: space.sm, flexWrap: 'wrap' },
   actions: { flexDirection: 'row', gap: space.sm, alignItems: 'center', flexWrap: 'wrap', flexShrink: 1, maxWidth: '100%' },
-  card: { borderRadius: radius.md, borderWidth: 1, padding: space.md },
-  empty: { borderRadius: radius.md, borderWidth: 1, borderStyle: 'dashed', padding: space.xl, alignItems: 'center' },
-  banner: { flexDirection: 'row', alignItems: 'flex-start', borderRadius: radius.md, borderLeftWidth: 4, padding: space.md, marginBottom: space.md },
+  card: { borderRadius: radius.lg, borderWidth: 1, padding: space.md },
+  empty: { borderRadius: radius.lg, borderWidth: 1, borderStyle: 'dashed', padding: space.xl, alignItems: 'center' },
+  banner: { flexDirection: 'row', alignItems: 'flex-start', borderRadius: radius.lg, borderLeftWidth: 4, padding: space.md, marginBottom: space.md },
   pill: { flexDirection: 'row', alignItems: 'center', borderRadius: radius.pill, borderWidth: 1, paddingHorizontal: 10, paddingVertical: 3, alignSelf: 'flex-start' },
 });

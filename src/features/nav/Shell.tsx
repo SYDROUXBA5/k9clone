@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { APP_NAME } from '@/config';
+import { GlowBackdrop } from '@/ui/GlowBackdrop';
+import { glassBlur } from '@/ui/glass';
 import { useList, useRepo } from '@/db/provider';
 import { topUpDemo } from '@/db/seed';
 import { ROLE_LABEL, type Role } from '@/db/types';
@@ -13,7 +15,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { NotificationAlerts } from '@/features/notifications/NotificationAlerts';
 import { NotificationsPanel } from '@/features/notifications/NotificationsPanel';
 import { usePrefs } from '@/features/prefs/PrefsProvider';
-import { Badge, Banner, Button, FieldHelpPanel, IconButton, Muted, Sheet, SupportBubble, Text, useColors, useIsDesktop, useToast, control, radius, space, fmtDate } from '@/ui';
+import { Badge, Banner, Button, FieldHelpPanel, IconButton, Muted, Sheet, SupportBubble, Text, useColors, useIsDesktop, useToast, control, radius, space, fmtDate, blur } from '@/ui';
 import { ThemeToggle } from '@/features/profile/ThemeToggle';
 import { useInstall } from '@/features/pwa';
 import { VaccineReminders } from '@/features/vet/VaccineReminders';
@@ -253,8 +255,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   if (desktop) {
     return (
-      <View style={{ flex: 1, flexDirection: 'row', backgroundColor: c.bg }}>
-        <View style={[styles.sidebar, { backgroundColor: c.navBg, width: control.desktopSidebar }]} testID="sidebar">
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        <GlowBackdrop />
+        <View style={[styles.sidebar, { backgroundColor: c.navBg, width: control.desktopSidebar }, glassBlur(blur.chrome)]} testID="sidebar">
           <View style={styles.brand}>
             <View style={[styles.logo, { backgroundColor: c.accentSolid }]}><Ionicons name="paw" size={22} color={c.accentText} /></View>
             <Text variant="h3" style={{ color: c.navText, letterSpacing: 1 }} testID="text-app-name">{APP_NAME}</Text>
@@ -327,7 +330,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: c.bg }}>
+    <View style={{ flex: 1 }}>
+      <GlowBackdrop />
       <TopBar
         title={title}
         onMenu={() => setDrawer(true)}
@@ -379,7 +383,7 @@ function TopBar({ title, onMenu, onAdd, onBell, onSupport, unread }: { title: st
   const c = useColors();
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.topBar, { backgroundColor: c.navBg, paddingTop: insets.top }]} testID="topbar">
+    <View style={[styles.topBar, { backgroundColor: c.navBg, paddingTop: insets.top }, glassBlur(blur.chrome)]} testID="topbar">
       <IconButton icon="menu" accessibilityLabel="Open menu" testID="btn-menu" onPress={onMenu} color={c.navText} size={28} />
       <Text variant="h3" style={{ color: c.navText, flex: 1, letterSpacing: 0.5 }} numberOfLines={1} testID="text-screen-title">{title.toUpperCase()}</Text>
       <ThemeToggle color={c.navText} testID="btn-theme-toggle-top" />
