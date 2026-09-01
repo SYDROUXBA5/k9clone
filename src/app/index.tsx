@@ -1,4 +1,4 @@
-import { Redirect } from 'expo-router';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { AUTO_LOGIN_EMAIL, DEMO_PASSWORD } from '@/config';
@@ -8,6 +8,10 @@ import { useColors } from '@/ui';
 export default function Index() {
   const { status, signIn } = useAuth();
   const c = useColors();
+  const { next } = useLocalSearchParams<{ next?: string }>();
+  // Only ever an in-app path: anything not starting with a single '/' is ignored so a crafted link
+  // cannot bounce a visitor off-site.
+  const dest = typeof next === 'string' && /^\/(?!\/)/.test(next) ? next : '/records';
   const attempted = useRef(false);
   const [autoLoginFailed, setAutoLoginFailed] = useState(false);
 
@@ -30,7 +34,7 @@ export default function Index() {
     })();
   }, [status, signIn]);
 
-  if (status === 'signed_in') return <Redirect href="/records" />;
+  if (status === 'signed_in') return <Redirect href={dest as never} />;
 
   const autoLoginActive = !!AUTO_LOGIN_EMAIL && !autoLoginFailed;
   if (!autoLoginActive) {
